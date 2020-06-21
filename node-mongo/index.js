@@ -11,6 +11,7 @@ MongoClient.connect(url, (err, client) => {
     console.log('Connected correctly to server');
 
     const db = client.db(dbname);
+    // console.log(db.collection("dishes")+"rfrg  "+dbname);
     const collection = db.collection("dishes");
     collection.insertOne({"name": "jatt", "description": "test"},
     (err, result) => {
