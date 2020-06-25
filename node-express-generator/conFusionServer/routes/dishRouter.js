@@ -48,11 +48,6 @@ dishRouter.route('/')
 });
 
 dishRouter.route('/:dishId')
-// .all(function(req,res,next) {
-//     res.statusCode = 200;
-//     res.setHeader('Content-Type', 'text/plain');
-//       next();
-// })
 
 .get(function(req,res,next){
         Dishes.findById(req.params.dishId)
@@ -135,8 +130,7 @@ dishRouter.route('/:dishId/comments')
                         return next(err);
                 }
         },(err)=>next(err))
-        .catch((err)=>next(err));
-//     res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);    
+        .catch((err)=>next(err)); 
 })
 .put((req, res, next) => {
         res.statusCode = 403;
