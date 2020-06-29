@@ -4,7 +4,7 @@ var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config.js');
-var User = require('./models/user');
+var User = require('./models/user');  
 
 exports.local=passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
