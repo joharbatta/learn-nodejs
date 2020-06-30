@@ -5,6 +5,7 @@ var authenticate = require('../authenticate');
 var User = require('../models/user');
 
 router.post('/signup', (req, res, next) => {
+
   User.register(new User({username: req.body.username}), 
     req.body.password, (err, user) => {
     if(err) {
@@ -24,6 +25,9 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
 
+  console.log(req.session);
+  console.log(req.user);
+  
   var token = authenticate.getToken({_id: req.user._id});
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');

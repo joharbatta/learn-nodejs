@@ -6,8 +6,8 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config.js');
 var User = require('./models/user');  
 
-exports.local=passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser()); // when we login after uthenticate passport add field in req { passport: { user: 'johar2' } }
 passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = function(user) {
@@ -19,8 +19,8 @@ var opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = config.secretKey;
 
-exports.jwtPassport = passport.use(new JwtStrategy(opts,
-    (jwt_payload, done) => {
+passport.use(new JwtStrategy(opts,(jwt_payload, done) => {
+
         console.log("JWT payload: ", jwt_payload);
         User.findOne({_id: jwt_payload._id}, (err, user) => {
             if (err) {
