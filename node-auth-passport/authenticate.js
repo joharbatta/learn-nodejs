@@ -7,8 +7,8 @@ var config = require('./config.js');
 var User = require('./models/user');  
 
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser()); // when we login after uthenticate passport add field in req { passport: { user: 'johar2' } }
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser()); // when we login after authenticate passport add field in req as req.session { passport: { user: 'johar2' } }
+passport.deserializeUser(User.deserializeUser()); //then we deserialize using id the details
 
 exports.getToken = function(user) {
     return jwt.sign(user, config.secretKey,
