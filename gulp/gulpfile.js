@@ -2,7 +2,10 @@ var gulp = require('gulp')
 var responsive = require('gulp-responsive')
 var imagemin = require('gulp-imagemin');
 
-
+// npm install --global --production windows-build-tools
+// npm install gulp-cli -g
+// npm install -g  gulp
+// npm install gulp-responsive
 // to run in terminal
 // gulp it will run default
 
