@@ -28,6 +28,16 @@ connect.then((db)=>{
 
 var app = express();
 
+// Secure traffic only https
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();  //already coming to secure port 
+  }
+  else {  //HTTP 307 Temporary Redirect redirect status response code indicates that the resource requested has been temporarily moved to the URL given by the Location headers.
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
