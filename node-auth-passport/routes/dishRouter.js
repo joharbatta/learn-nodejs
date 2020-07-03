@@ -2,6 +2,7 @@ var express = require('express');
 const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
 var authenticate = require('../authenticate');
+const cors = require('../cors');
 
 const Dishes=require("../models/dishes");
 var dishRouter  = express.Router();
@@ -14,7 +15,8 @@ dishRouter.route('/')
 //     res.setHeader('Content-Type', 'text/plain');
 //       next();
 // })
-.get(function(req,res,next){
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
+.get(cors.cors,function(req,res,next){
         Dishes.find({})
         .populate('comments.author')
         .then((dishes)=>{
@@ -26,7 +28,7 @@ dishRouter.route('/')
         // res.end('Will send all the dishes to you!');
 })
 
-.post(authenticate.verifyUser,function(req, res, next){
+.post(cors.corsWithOptions,authenticate.verifyUser,function(req, res, next){
         Dishes.create(req.body)
         .then((dish)=>{
                 console.log('Dish created',dish);
@@ -38,7 +40,7 @@ dishRouter.route('/')
 //     res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);    
 })
 
-.delete(authenticate.verifyUser,function(req, res, next){
+.delete(cors.corsWithOptions,authenticate.verifyUser,function(req, res, next){
         // res.end('Deleting all dishes');
         Dishes.remove({})
         .then((resp)=>{
@@ -50,7 +52,7 @@ dishRouter.route('/')
 });
 
 dishRouter.route('/:dishId')
-
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(function(req,res,next){
         Dishes.findById(req.params.dishId)
         .populate('comments.author')
@@ -91,6 +93,7 @@ dishRouter.route('/:dishId')
 
 
 dishRouter.route('/:dishId/comments')
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(function(req,res,next){
         Dishes.findById(req.params.dishId)
         .populate('comments.author')
@@ -173,7 +176,7 @@ dishRouter.route('/:dishId/comments')
 });
 
 dishRouter.route('/:dishId/comments/:commentId')
-
+.options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(function(req,res,next){
         Dishes.findById(req.params.dishId)
         .populate('comments.author')
